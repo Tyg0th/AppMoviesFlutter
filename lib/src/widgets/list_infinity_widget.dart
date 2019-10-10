@@ -26,8 +26,7 @@ class MovieHorizontal extends StatelessWidget {
       child: PageView.builder(
         physics: AlwaysScrollableScrollPhysics(),
         scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) => _tarjeta(context, peliculas[index])
-        ,
+        itemBuilder: (context, index) => _tarjeta(context, peliculas[index]),
         //children: _tarjetas(context),
         itemCount: peliculas.length,
         pageSnapping: false,
@@ -36,12 +35,15 @@ class MovieHorizontal extends StatelessWidget {
     );
   }
 
-  Widget _tarjeta(BuildContext context, Pelicula pelicula){
-    return Container(
-        margin: EdgeInsets.only(right: 15.0),
-        child: Column(
-          children: <Widget>[
-            ClipRRect(
+  Widget _tarjeta(BuildContext context, Pelicula pelicula) {
+    final tarjeta = Container(
+      margin: EdgeInsets.only(right: 15.0),
+      child: Column(
+        children: <Widget>[
+          Hero(
+            tag: pelicula.id,
+            
+            child: ClipRRect(
               borderRadius: BorderRadius.circular(20.0),
               child: FadeInImage(
                 width: 120.0,
@@ -51,18 +53,26 @@ class MovieHorizontal extends StatelessWidget {
                 placeholder: AssetImage('assets/no-image.jpg'),
               ),
             ),
-            SizedBox(
-              height: 5.0,
-            ),
-            Text(
-              pelicula.title,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.caption,
-            )
-          ],
-        ),
-      );
+          ),
+          SizedBox(
+            height: 5.0,
+          ),
+          Text(
+            pelicula.title,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.caption,
+          )
+        ],
+      ),
+    );
+
+    return GestureDetector(
+      child: tarjeta,
+      onTap: () {
+        Navigator.pushNamed(context, 'detalle', arguments: pelicula);
+      },
+    );
   }
 
   List<Widget> _tarjetas(BuildContext context) {

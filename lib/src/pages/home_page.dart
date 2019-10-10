@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:peliculas/src/models/pelicula_model.dart';
 import 'package:peliculas/src/providers/peliculas_providers.dart';
+import 'package:peliculas/src/search/search_delegate.dart';
 
 import 'package:peliculas/src/widgets/card_swiper_widget.dart';
 import 'package:peliculas/src/widgets/list_infinity_widget.dart';
@@ -10,7 +11,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     peliculasProvider.getPopulares();
 
     return Scaffold(
@@ -20,7 +20,9 @@ class HomePage extends StatelessWidget {
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.search),
-              onPressed: () {},
+              onPressed: () {
+                showSearch(context: context, delegate: DataSearch());
+              },
             )
           ],
         ),
@@ -55,20 +57,20 @@ class HomePage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-              padding: EdgeInsets.only(left: 22.0),
-              child: Text('Populares',
-                  style: Theme.of(context).textTheme.subhead),),
+            padding: EdgeInsets.only(left: 22.0),
+            child:
+                Text('Populares', style: Theme.of(context).textTheme.subhead),
+          ),
           SizedBox(
             height: 10.0,
           ),
-
           StreamBuilder(
             stream: peliculasProvider.popularesStream,
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
                 return MovieHorizontal(
                   peliculas: snapshot.data,
-                  siguientePagina: (){
+                  siguientePagina: () {
                     peliculasProvider.getPopulares();
                   },
                 );
