@@ -6,7 +6,7 @@ import 'package:peliculas/src/models/pelicula_model.dart';
 import 'package:http/http.dart' as http;
 
 class PeliculasProvider {
-  String _apikey = 'b78de68b9105cddebfc3a2d3d7ede22c';
+  String _apikey = 'INSERTE_API_KEY';
   String _url = 'api.themoviedb.org';
   String _language = 'es-ES';
 
